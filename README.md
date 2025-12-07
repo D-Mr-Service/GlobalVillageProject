@@ -1,87 +1,35 @@
-# GlobalVillageProject 
-地球村计划
-Earth Village is an open, collaborative project for all of humanity. We invite individuals, communities, developers, researchers, and businesses worldwide to participate in the design, auditing, and continuous iteration of this decentralized social system.  It uses decentralized identities (DID/VC) as the foundation for public identity, with identity-sensitive information encrypted at the field level using independent encryption and protected by post-quantum cryptography for long-term security. This ensures that while identities are verifiable and valid across the entire network, no one can access personal private information without the individual's authorization.
+# 全球村计划
+地球村是一个面向全人类的开放协作项目。我们邀请世界各地的个人、社区、开发者、研究人员和企业参与这个去中心化社会系统的设计、审计和持续迭代。它以去中心化身份（DID/VC）作为公共身份的基础，身份敏感信息在字段级别使用独立加密进行加密，并受到后量子密码学的保护，以确保长期安全。这确保了身份在整个网络中可验证且有效，但未经个人授权，任何人都无法访问其个人隐私信息。
 
-At the asset and housing level, real estate is bound and authenticated only through encrypted addresses/commitment values: the status and change records of properties are publicly accessible worldwide, but it's impossible to deduce ownership from the public registry. Transactions are completed in a verifiable but anonymous manner within a rule-bound witnessing process. Commercial assets are only available for lease, not purchase: rent automatically flows back and is equally distributed among residents in the surrounding area.  Businesses also contribute a fixed percentage (e.g., 5%) to the construction of public goods such as roads and public facilities, ensuring that value returns to the community in the long term.
+在资产和住房层面，房地产仅通过加密地址/承诺值进行绑定和认证：房产的状态和变更记录在全球范围内公开可查，但无法从公共登记册中推断出所有权。交易在规则约束的见证流程中以可验证但匿名的方式完成。商业资产仅供租赁，而非出售：租金自动返还并平均分配给周边地区的居民。企业还将固定比例的收入（例如 5%）用于建设道路和公共设施等公共产品，确保价值长期回馈社区。
 
-The governance and execution layers employ a mechanism of "transparent rules, auditable processes, and revocable power": AI is used only as an auxiliary tool (for proposal organization, risk warning, and execution verification), and is constrained by clearly defined public principles and human oversight. This ensures that the system always prioritizes human dignity, freedom, and rights, and prevents any individual, organization, group, or single AI entity from gaining absolute control over others or the system, both institutionally and technologically.
-
+治理和执行层采用“透明规则、可审计流程和可撤销权力”的机制：人工智能仅作为辅助工具（用于提案组织、风险预警和执行验证），并受到明确定义的公共原则和人工监督的约束。这确保了系统始终优先考虑人的尊严、自由和权利，并防止任何个人、组织、团体或单一人工智能实体在制度和技术上获得对他人或系统的绝对控制权。
 
 #
-Identity Encryption System – "Globally Verifiable Existence, but Unreadable Without the Owner's Authorization"
+身份加密系统——“全球可验证存在，但未经所有者授权无法读取”
 
-The Earth Village identity system is not based on national identification documents, but rather on a combination of "Decentralized Identity (DID) + Private Encrypted Vault + Verifiable Credentials (VC/VP)". The core objective of the system is: the entire world can verify whether an identity is real and valid, whether it has been revoked, and whether it possesses certain qualifications; however, no one (including site staff/security personnel/platforms) can read the individual's private content without the owner's authorization key.
+地球村身份系统并非基于国家身份证明文件，而是基于“去中心化身份（DID）+ 私人加密保险库 + 可验证凭证（VC/VP）”的组合。该系统的核心目标是：全世界都可以验证身份是否真实有效、是否已被吊销以及是否拥有某些资格；但是，未经所有者的授权密钥，任何人都无法读取个人的私人内容（包括网站工作人员/安全人员/平台）。 1) 公共层：DID（可公开验证的“身份地址”，支持更新/停用）
 
-1) Public Layer: DID (Publicly Verifiable "Identity Address," supporting updates/deactivation)
+每个地球村成员都拥有一个或多个 DID（去中心化标识符），作为可公开解析的身份地址。DID 的设计允许创建、验证、更新和停用标识符和 DID 文档。
 
-Each Earth Village member has one or more DIDs (Decentralized Identifiers), serving as publicly resolvable identity addresses. The DID design allows identifiers and DID documents to be created, verified, updated, and deactivated.
+地址轮换：为了防止追踪，成员可以使用“基于关系/基于场景的 DID”（例如，针对不同的机构或场景使用不同的 DID），并可以随时切换到新的 DID；外界只能看到“有效/无效/更新记录”，而看不到身份的私密内容。
 
-Address rotation: To prevent tracking, members can use "relationship-based/scenario-based DIDs" (e.g., different DIDs for different institutions or scenarios), and switch to a new DID at any time; the outside world only sees "valid/invalid/update records," not the identity's private content.
+注意：像 did:key 这种“直接从公钥生成 DID”的方法本质上不适用于需要“长期身份 + 密钥轮换/恢复/停用”的场景；长期身份应该使用支持注册/更新的 DID 方法。
 
-Note: Methods like did:key, which "directly generate a DID from a public key," are inherently unsuitable for scenarios requiring "long-term identity + key rotation/recovery/deactivation"; long-term identities should use DID methods that support registry/update.
+建议公共层仅披露以下“元信息”（不包含隐私信息）：
 
-The public layer is recommended to only disclose these "meta-information" (excluding privacy):
+did、状态（活动/已撤销/已停用）、更新时间
 
-did, status (active/revoked/deactivated), updated_at
+当前验证公钥集（或其承诺/指纹）
 
-Current set of verification public keys (or their commitment/fingerprint)
+vault_root_hash（私有保险库的哈希根，用于防篡改校验，但不披露内容）
 
-vault_root_hash (the hash root of the private vault, used for tamper-proof reconciliation, without disclosing content)
+2) 私有层：字段级加密保险库（每条信息单独加密、单独授权、单独更新）
 
-2) Private Layer: Field-Level Encrypted Vault (Each piece of information is individually encrypted, individually authorized, and individually updated)
+成员的敏感信息（如您所述：DNA、血型、经络血管通路、虹膜、指纹、照片、姓名/年龄/出生地以及自行设置的密码等）分开单独加密，并遵循三项强制规则：
 
-Members' sensitive information (as you mentioned: DNA, blood type, meridian and vascular pathways, iris, fingerprints, photos, name/age/place of birth, and self-set passwords, etc.) are all stored in a personal private encrypted vault, and follow three mandatory rules:
+字段级独立加密：每个字段都使用独立的对称加密密钥 (DEK) 进行加密；更新一个字段不会影响其他字段。字段级授权：授权某人查看“特定字段”并不等同于授权其查看所有信息。
 
-Field-level independent encryption: Each field is encrypted with an independent data encryption key (DEK); updating one field does not affect other fields. Field-level authorization: Authorizing someone to view "a specific field" does not equate to authorizing them to view all information.
+可撤销/可更新：任何字段的授权都可以独立撤销、重新加密或升级版本。
 
-Revocable/Updatable: Any field can have its authorization revoked, re-encrypted, or its version upgraded independently.
-
-Key point: The on-chain/public layer never stores plaintext biometric information, plaintext photos, or plaintext places of birth; it only stores hash roots and status.
-
-3) Implementation principles of "quantum/post-quantum encryption": Using post-quantum cryptography (PQC) to protect long-term security
-
-If your "quantum encryption" is to be practically implemented, the core should be post-quantum cryptography: using standardized post-quantum algorithms for "key encapsulation (encrypting keys)" and "digital signatures (non-repudiation of authorization and updates)".
-
-FIPS 203 (ML-KEM): Used for encapsulating/distributing field keys (DEK), enhancing post-quantum capabilities.
-
-FIPS 204 (ML-DSA)/FIPS 205 (SLH-DSA): Used for signing identity updates, authorizations, revocations, rotations, etc., making public records verifiable and tamper-proof.
-
-The public ledger is searchable and records are verifiable, but without the subject's private key, no field content can be decrypted.
-
-4) Proof Layer: Only proving necessary information (Selective Disclosure / Zero-Knowledge)
-
-The identity system does not encourage "showing private information to others," but instead defaults to answering questions with "verifiable proofs":
-
-When needing to prove "I am a member of the global community/I have passed a certain qualification/I am an adult," use **W3C Verifiable Credentials (VC)** and Verifiable Presentations (VP). VC v2.0 explicitly supports "disclosing only partial claims" and "zero-knowledge presentations."
-
-Using **SD-JWT (Selective Disclosure JWT)**, you can disclose only necessary fields, keeping other fields hidden; SD-JWT has become an IETF standard RFC 9901.
-
-For stronger privacy (more difficult to link), "zero-knowledge proof presentations" can be used (proving that conditions are met without exposing the original values).
-
-5) How can biometric information be used to "confirm identity," but still prevent any verifier from seeing the biometric data? The principle of the global village is: biometric data is only used for "local unlocking keys," and is not uploaded, leaked, or handed over to verifiers.
-
-Using WebAuthn/FIDO/Passkeys: After local unlocking on the device (fingerprint/face/PIN), the private key within the device signs the challenge; the verifier only verifies whether the signature is correct.
-
-Biometric information protection should meet requirements such as "confidentiality, integrity, and renewability/revocability," which is also a core focus of ISO/IEC 24745:2022.
-
-6) Address Update and Key Rotation – Anti-Tracking + Anti-Account Theft
-
-To meet your requirements for "updatable addresses and updatable keys":
-
-Address Rotation: Members can periodically or manually switch to a new DID (especially using different DIDs for different scenarios), reducing the ability of third parties to track them through fixed addresses over the long term.
-
-Key Rotation: Members can rotate their identity control keys; rotation records can be publicly verified, but will not expose private fields. The DID system itself supports update/deactivation and other operational models.
-
-Revocation and Recovery: A revocation and recovery mechanism must be provided (otherwise, losing a device would mean "identity death"). Lifecycle management and authenticator management are essential parts of a mature identity system.
-
-7) No one can control anyone: How does the identity system "counter control"?
-
-The identity encryption system reduces the possibility of "controlling others" through the following mechanisms, both institutionally and technologically:
-
-Default Minimum Disclosure: Verification only receives "proof of validity," not full privacy data.
-
-Decentralized Key Control: Keys are held by individuals; the public ledger can only verify signatures/status, and cannot decrypt on behalf of individuals.
-
-Revocable and Rotatable: If a leak is suspected, revoke/rotate immediately, and the old authorization becomes invalid.
-
-Biometric Data Does Not Leave the Device: The verification point will never see your raw biometric data, only that "you have completed the device signature."
+关键点：链上/公共层绝不存储明文生物识别信息、明文照片或明文出生地；它只存储哈希根和状态。 3）“量子/后量子加密”的实现原则：使用后量子密码学（PQC）来保护长期数据。
